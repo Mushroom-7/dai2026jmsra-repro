@@ -1,0 +1,46 @@
+from src.algorithms.baselines.all_nl import BaselineResult
+from src.algorithms.jmsra import JmsraProblem, calc_latency
+from src.channels.wireless_channel import uplink_rate_bps
+from src.utils.latency import ea_prefill_latency_for_modes, kv_cache_bits
+
+
+def _average_latency(problem: JmsraProblem, modes: list[int]) -> float:
+    prefill = ea_prefill_latency_for_modes(
+        problem.config,
+        modes,
+        problem.alphas,
+        problem.theta0,
+        problem.ea_compute_flops,
+    )
+    rho = [1.0 / problem.size] * problem.size
+    latencies = []
+    for index in range(problem.size):
+        bits = kv_cache_bits(
+            problem.config,
+            problem.alphas[index],
+            problem.xis[index],
+            problem.gammas[index],
+        )
+        rate = uplink_rate_bps(
+            problem.powers_watt[index],
+            problem.gains[index],
+            problem.bandwidth_hz,
+            problem.noise_psd_w_per_hz,
+            rho[index],
+        )
+        latencies.append(bits / rate)
+    return prefill + max(latencies)
+
+
+def run_all_kv(
+    problem: JmsraProblem, optimized: bool = False
+) -> BaselineResult:
+    modes = [1] * problem.size
+    if optimized:
+        latency, rho = calc_latency(problem, modes)
+    else:
+        rho = [1.0 / problem.size] * problem.size
+        latency = _average_latency(problem, modes)
+    return BaselineResult(
+        "All-KV-Opt" if optimized else "All-KV", modes, rho, latency
+    )

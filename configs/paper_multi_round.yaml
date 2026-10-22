@@ -1,0 +1,93 @@
+random_seed: 2026
+
+llm:
+  layers: 32
+  heads: 32
+  head_dim: 128
+  hidden_dim: 4096
+  ffn_dim: 11008
+  vocab_size: 32000
+
+paper_multi_round:
+  schema_version: 1
+  rounds: 40
+  max_aas: 20
+  active_aa_counts:
+    - 12
+    - 12
+    - 12
+    - 12
+    - 12
+    - 12
+    - 12
+    - 12
+    - 12
+    - 12
+    - 20
+    - 20
+    - 20
+    - 20
+    - 20
+    - 20
+    - 20
+    - 20
+    - 20
+    - 20
+    - 20
+    - 20
+    - 17
+    - 17
+    - 17
+    - 17
+    - 17
+    - 17
+    - 17
+    - 17
+    - 17
+    - 17
+    - 8
+    - 8
+    - 8
+    - 8
+    - 8
+    - 8
+    - 8
+    - 8
+  active_aa_counts_source: figure-inferred-calibration
+
+  bits_per_token: 16
+  kv_cache_compression_ratio: 2
+  bandwidth_ghz: 2
+  noise_dbm_per_hz: -140
+  distance_min_m: 5
+  distance_max_m: 10
+  path_loss_model: "30 + 35 log10(d)"
+
+  ea_compute_tflops: 20
+  aa_compute_tflops_min: 5
+  aa_compute_tflops_max: 15
+  ea_transmit_power_dbm: 30
+  aa_transmit_power_dbm_min: 10
+  aa_transmit_power_dbm_max: 23
+
+  ea_initial_prompt_tokens: 1024
+  ea_generated_tokens: 1024
+  aa_sensory_input_tokens: 1024
+  aa_generated_tokens: 1024
+  ea_context_limit_tokens: 409600
+  ea_kv_debt_window_tokens: 102400
+  aa_context_limit_tokens: 51200
+  aa_kv_debt_window_tokens: 10240
+
+  tolerance_seconds: 0.000001
+  min_rho: 0.000000001
+
+  trend:
+    early_round_end: 10
+    deep_round_start: 23
+    deep_round_end: 32
+    pure_nl_peak_min_seconds: 180
+    pure_nl_peak_max_seconds: 300
+    deep_kv_share_min: 0.5
+    proposed_prefill_ratio_max: 0.25
+    proposed_total_ratio_max: 0.4

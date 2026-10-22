@@ -1,0 +1,18 @@
+schema_version: 1
+output_root: results/runs
+record_packages:
+  - numpy
+  - matplotlib
+  - PyYAML
+  - pandas
+  - pytest
+experiments:
+  fig45:
+    config: configs/paper_mode_analysis.yaml
+    log: paper_mode_analysis.json
+  fig67:
+    config: configs/paper_jmsra.yaml
+    log: paper_jmsra_calibration.json
+  fig8:
+    config: configs/paper_multi_round.yaml
+    log: paper_multi_round.json

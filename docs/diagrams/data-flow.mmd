@@ -1,0 +1,52 @@
+flowchart LR
+    subgraph cluster_input["论文参数与配置"]
+        config["本轮配置<br/>活跃 AAs / Table 4 参数"]
+    end
+    subgraph cluster_state["多轮状态"]
+        previous["上一轮状态<br/>上下文与 KV 债务"]
+        update["状态转移<br/>截断 / 累债 / 清债"]
+    end
+    subgraph cluster_process["处理过程"]
+        sample["采样无线环境<br/>距离 / 衰落 / 增益"]
+        candidates["计算 NL/KV<br/>广播候选时延"]
+        return_candidates["形成 AAs 返回候选<br/>NL/KV 负载与时延"]
+    end
+    subgraph cluster_decision["介质选择与资源分配"]
+        broadcast["选择 EA 广播介质"]
+        jmsra["JMSRA 联合优化<br/>模式 + 带宽比例"]
+    end
+    subgraph cluster_compute["计算与智能体"]
+        aa_infer["AAs 接收并本地推理"]
+        ea_infer["EA 聚合与推理<br/>Prefill + Autoregressive"]
+    end
+    subgraph cluster_evidence["证据与输出"]
+        metrics["本轮指标<br/>时延 / 模式 / 带宽"]
+        json["追加 JSON 轮次记录"]
+    end
+    config -->|"环境范围"| sample
+    previous -->|"上下文与债务"| candidates
+    sample -->|"广播速率"| candidates
+    candidates -->|"候选时延"| broadcast
+    broadcast -->|"NL 或 KV"| aa_infer
+    aa_infer -->|"响应状态"| return_candidates
+    sample -->|"上行速率"| return_candidates
+    return_candidates -->|"每 AA 候选"| jmsra
+    jmsra -->|"选定负载"| ea_infer
+    previous -->|"EA 上下文"| ea_infer
+    ea_infer -->|"生成结果"| update
+    aa_infer -->|"AA 新状态"| update
+    update -->|"状态与耗时"| metrics
+    metrics -->|"序列化"| json
+    update -.->|"下一轮反馈"| previous
+    classDef input fill:#EAF2F8,stroke:#2E6F9E,color:#17202A,stroke-width:1.5px
+    class config input
+    classDef state fill:#FDECEC,stroke:#A94343,color:#17202A,stroke-width:1.5px
+    class previous,update state
+    classDef process fill:#EEF3F9,stroke:#486B8C,color:#17202A,stroke-width:1.5px
+    class sample,candidates,return_candidates process
+    classDef decision fill:#F3E8F7,stroke:#7B438F,color:#17202A,stroke-width:1.5px
+    class broadcast,jmsra decision
+    classDef compute fill:#E8F5E9,stroke:#347A46,color:#17202A,stroke-width:1.5px
+    class aa_infer,ea_infer compute
+    classDef evidence fill:#F1F3F5,stroke:#4D5964,color:#17202A,stroke-width:1.5px
+    class metrics,json evidence

@@ -1,0 +1,46 @@
+random_seed: 2026
+llm:
+  layers: 32
+  heads: 32
+  head_dim: 128
+  hidden_dim: 4096
+  ffn_dim: 11008
+  vocab_size: 32000
+communication:
+  bits_per_token: 16
+  kv_cache_compression_ratio: 2
+  bandwidth_ghz: 2
+  noise_dbm_per_hz: -140
+  ea_transmit_power_dbm: 30
+single_round:
+  num_aas: 20
+  ea_compute_tflops: 10
+  aa_compute_tflops_min: 5
+  aa_compute_tflops_max: 15
+  aa_transmit_power_dbm_min: 10
+  aa_transmit_power_dbm_max: 23
+  distance_min_m: 5
+  distance_max_m: 10
+  alpha_base: 1024
+  alpha_jitter_min: 0.8
+  alpha_jitter_max: 1.2
+  xi_multiplier_min: 2.8
+  xi_multiplier_max: 3.2
+  theta0_tokens: 5120
+multi_round:
+  max_aas: 20
+  rounds: 40
+  ea_compute_tflops: 20
+  aa_compute_tflops_min: 5
+  aa_compute_tflops_max: 15
+  ea_initial_prompt_tokens: 1024
+  ea_generated_tokens: 1024
+  aa_sensory_input_tokens: 1024
+  aa_generated_tokens: 1024
+  ea_context_limit_tokens: 409600
+  ea_kv_debt_window_tokens: 102400
+  aa_context_limit_tokens: 51200
+  aa_kv_debt_window_tokens: 10240
+jmsra:
+  tolerance_seconds: 0.000001
+  min_rho: 0.000000001

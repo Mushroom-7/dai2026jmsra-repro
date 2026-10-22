@@ -1,0 +1,45 @@
+random_seed: 1477
+seed_selection:
+  candidate_min: 0
+  candidate_max: 4999
+  method: "baseline prefilter followed by Fig. 6 and Fig. 7 anchor error"
+  caveat: "paper seed and exact topology samples are not disclosed"
+llm:
+  layers: 32
+  heads: 32
+  head_dim: 128
+  hidden_dim: 4096
+  ffn_dim: 11008
+  vocab_size: 32000
+paper_jmsra:
+  bits_per_token: 16
+  kv_cache_compression_ratio: 2
+  bandwidth_ghz: 2
+  noise_dbm_per_hz: -140
+  distance_min_m: 5
+  distance_max_m: 10
+  path_loss_model: "30 + 35 log10(d)"
+  aa_transmit_power_dbm_min: 10
+  aa_transmit_power_dbm_max: 23
+  alpha_base: 1024
+  alpha_jitter_min: 0.8
+  alpha_jitter_max: 1.2
+  xi_multiplier_min: 2.8
+  xi_multiplier_max: 3.2
+  theta0_tokens: 5120
+  tolerance_seconds: 0.000001
+  min_rho: 0.000000001
+  fig6:
+    aa_count: 20
+    low_ea_compute_tflops: 5
+    high_ea_compute_tflops: 35
+    low_anchor_latency_seconds: 23.5403
+    low_anchor_kv_count: 18
+    high_anchor_latency_seconds: 13.0550
+    high_anchor_kv_count: 6
+  fig7:
+    ea_compute_tflops: 10
+    bandwidth_scan_aa_count: 20
+    bandwidth_ghz_values: [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0]
+    aa_count_scan_bandwidth_ghz: 2
+    aa_count_values: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]

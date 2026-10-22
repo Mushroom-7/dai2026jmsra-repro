@@ -1,0 +1,56 @@
+flowchart TB
+    subgraph cluster_input["论文参数与配置"]
+        paper["论文公式、Table 2--4<br/>与 Fig.4--8 可见锚点"]
+    end
+    subgraph cluster_process["处理过程"]
+        parameters["公开参数映射<br/>YAML 配置"]
+        assumptions["未公开信息登记<br/>输入长度 / 种子 / 活跃轨迹"]
+    end
+    subgraph cluster_experiment["复现实验"]
+        fig45["Fig.4--5<br/>解析时延与介质阈值"]
+        fig67["Fig.6--7<br/>JMSRA 确定性校准"]
+        fig8["Fig.8<br/>40 轮动态状态仿真"]
+    end
+    subgraph cluster_evidence["证据与输出"]
+        artifacts["JSON 原始数值<br/>PNG 复现图表"]
+        report["总结报告与系统图"]
+    end
+    subgraph cluster_verification["核验"]
+        compare["论文锚点、曲线顺序<br/>与趋势检查"]
+        tests["pytest 回归测试<br/>配置 / 公式 / 绘图"]
+        decision["完成度判定<br/>证据边界与差异说明"]
+    end
+    subgraph cluster_research["研究扩展"]
+        innovation["研究扩展<br/>目标函数 / 信道 / 策略 / 实机"]
+    end
+    paper -->|"提取"| parameters
+    paper -->|"识别缺失信息"| assumptions
+    parameters -->|"参数化"| fig45
+    parameters -->|"参数化"| fig67
+    parameters -->|"参数化"| fig8
+    assumptions -->|"显式假设"| fig45
+    assumptions -->|"确定性种子"| fig67
+    assumptions -->|"推断轨迹"| fig8
+    fig45 -->|"输出"| artifacts
+    fig67 -->|"输出"| artifacts
+    fig8 -->|"输出"| artifacts
+    artifacts -->|"数值证据"| compare
+    fig45 -->|"实现"| tests
+    fig67 -->|"实现"| tests
+    fig8 -->|"实现"| tests
+    compare -->|"趋势与偏差"| decision
+    tests -->|"回归结果"| decision
+    decision -->|"形成结论"| report
+    decision -->|"建立基线"| innovation
+    classDef input fill:#EAF2F8,stroke:#2E6F9E,color:#17202A,stroke-width:1.5px
+    class paper input
+    classDef process fill:#EEF3F9,stroke:#486B8C,color:#17202A,stroke-width:1.5px
+    class parameters,assumptions process
+    classDef experiment fill:#E7F4F3,stroke:#277A75,color:#17202A,stroke-width:1.5px
+    class fig45,fig67,fig8 experiment
+    classDef evidence fill:#F1F3F5,stroke:#4D5964,color:#17202A,stroke-width:1.5px
+    class artifacts,report evidence
+    classDef verification fill:#FFF7DB,stroke:#99731B,color:#17202A,stroke-width:1.5px
+    class compare,tests,decision verification
+    classDef research fill:#E9F5EE,stroke:#327052,color:#17202A,stroke-width:1.5px
+    class innovation research

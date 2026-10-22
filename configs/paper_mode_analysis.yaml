@@ -1,0 +1,61 @@
+llm:
+  layers: 32
+  heads: 32
+  head_dim: 128
+  hidden_dim: 4096
+  ffn_dim: 11008
+  vocab_size: 32000
+paper_mode_analysis:
+  schema_version: 1
+  bits_per_token: 16
+  kv_cache_compression_ratio: 2
+  bandwidth_ghz: 2
+  noise_dbm_per_hz: -140
+  final_ea_output_tokens: 100
+  rho_tolerance: 0.000000001
+  score_tolerance_seconds: 0.000001
+  threshold_max_iterations: 100
+  fig4:
+    default_aa_count: 5
+    default_ea_compute_tflops: 10
+    default_aa_compute_tflops: 10
+    default_beta: 1
+    panel_a_beta_min: 0.1
+    panel_a_beta_max: 100
+    panel_a_beta_points: 31
+    panel_a_snr_db_values: [0, 10, 20]
+    panel_a_input_tokens_values: [512, 2048]
+    panel_b_compute_min_tflops: 1
+    panel_b_compute_max_tflops: 31
+    panel_b_compute_points: 31
+    panel_b_snr_db_values: [0, 10, 20]
+    panel_b_input_tokens: 512
+    panel_b_input_tokens_source: calibration-assumption
+    panel_c_snr_min_db: -10
+    panel_c_snr_max_db: 30
+    panel_c_snr_points: 41
+    panel_c_aa_count_values: [5, 10, 20]
+    panel_c_input_tokens_values: [512, 2048]
+    panel_d_aa_count_values:
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+       16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+    panel_d_snr_db_values: [0, 10, 20]
+    panel_d_input_tokens_values: [512, 2048]
+  fig5:
+    receiver_compute_tflops: 1
+    generated_tokens: 512
+    rho_min: 0.01
+    rho_max: 1
+    rho_points: 100
+    panel_a_snr_db: 5
+    xi_values: [0, 3000, 6000]
+    theta_values: [0, 10000]
+    panel_b_xi: 6000
+    panel_b_snr_db_values: [5, 10, 15]
+    panel_c_snr_db: 5
+    panel_c_alpha_min: 1
+    panel_c_alpha_max: 600
+    panel_c_alpha_points: 61
+    panel_c_xi_min: 0
+    panel_c_xi_max: 3000
+    panel_c_xi_points: 61

@@ -1,0 +1,1 @@
+"""Baseline media selection strategies."""

@@ -1,0 +1,70 @@
+flowchart LR
+    subgraph cluster_input["论文参数与配置"]
+        parameters["实验参数设置<br/>Table 2--4 / 三份 YAML"]
+    end
+    subgraph cluster_process["处理过程"]
+        scenario["配置加载与场景生成<br/>data_gen.py"]
+        candidates["NL/KV 候选时延<br/>计算 + 传输 + 聚合"]
+    end
+    subgraph cluster_compute["计算与智能体"]
+        transformer["Transformer 计算原语<br/>FLOP / Prefill / AR / KV"]
+    end
+    subgraph cluster_communication["无线通信"]
+        channel["无线信道原语<br/>路径损耗 / 衰落 / 速率"]
+    end
+    subgraph cluster_decision["介质选择与资源分配"]
+        media_selection["介质选择分析<br/>时延比 / 单链路阈值"]
+        jmsra["JMSRA 与基线<br/>模式选择 + 带宽分配"]
+    end
+    subgraph cluster_state["多轮状态"]
+        state["多轮状态更新<br/>上下文 / KV 债务 / 窗口"]
+    end
+    subgraph cluster_experiment["复现实验"]
+        fig45["Fig.4--5 分析实验<br/>参数扫描 / 选择边界"]
+        fig67["Fig.6--7 单轮实验<br/>路径 / 带宽 / AA 数扫描"]
+        fig8["Fig.8 多轮协作实验<br/>EA 广播 / AA 响应 / EA 聚合"]
+    end
+    subgraph cluster_evidence["证据与输出"]
+        metrics["实验指标汇总<br/>时延 / 模式 / 带宽 / 上下文"]
+        json["JSON 数值结果<br/>逐点数据 / 轮次状态"]
+        plots["论文图表输出<br/>Fig.4--8 PNG"]
+    end
+    subgraph cluster_verification["核验"]
+        checks["论文结论核验<br/>趋势 / 锚点 / 曲线顺序"]
+    end
+    parameters --> scenario
+    scenario -->|"模型与负载"| transformer
+    scenario -->|"拓扑与信道样本"| channel
+    transformer -->|"计算时延"| candidates
+    channel -->|"传输速率"| candidates
+    candidates -->|"NL/KV 时延"| media_selection
+    candidates -->|"每 AA 候选"| jmsra
+    media_selection -->|"扫描"| fig45
+    jmsra -->|"优化 / 基线"| fig67
+    media_selection --> fig8
+    jmsra --> fig8
+    fig8 -.->|"更新并反馈下一轮"| state
+    fig45 --> metrics
+    fig67 --> metrics
+    fig8 --> metrics
+    metrics -->|"保存原始结果"| json
+    metrics -->|"绘图"| plots
+    metrics -->|"对照论文"| checks
+    classDef input fill:#EAF2F8,stroke:#2E6F9E,color:#17202A,stroke-width:1.5px
+    class parameters input
+    classDef process fill:#EEF3F9,stroke:#486B8C,color:#17202A,stroke-width:1.5px
+    class scenario,candidates process
+    classDef compute fill:#E8F5E9,stroke:#347A46,color:#17202A,stroke-width:1.5px
+    class transformer compute
+    classDef communication fill:#FFF3E0,stroke:#B66516,color:#17202A,stroke-width:1.5px
+    class channel communication
+    classDef decision fill:#F3E8F7,stroke:#7B438F,color:#17202A,stroke-width:1.5px
+    class media_selection,jmsra decision
+    classDef state fill:#FDECEC,stroke:#A94343,color:#17202A,stroke-width:1.5px
+    class state state
+    classDef experiment fill:#E7F4F3,stroke:#277A75,color:#17202A,stroke-width:1.5px
+    class fig45,fig67,fig8 experiment
+    classDef evidence fill:#F1F3F5,stroke:#4D5964,color:#17202A,stroke-width:1.5px
+    class metrics,json,plots evidence
+    classDef verification fill:#FFF7DB,stroke:#99731B,color:#17202A,stroke-width:1.5px
+    class checks verification
